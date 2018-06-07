@@ -21,10 +21,13 @@ public partial class InfoSelect : System.Web.UI.Page
         SqlConnection cnn = new SqlConnection(strCnn);
         
         SqlCommand cmd = new SqlCommand();
+        SqlCommand cmd2 = new SqlCommand();
         cmd.Connection = cnn;
+        cmd2.Connection = cnn;
         cmd.CommandText = "select * from StudInfo";
 
         SqlDataReader stuReader = null;
+     
 
         
         try
@@ -34,20 +37,49 @@ public partial class InfoSelect : System.Web.UI.Page
             stuReader = cmd.ExecuteReader();
             Response.Write("<table border = '1'><tr align = 'center'>");
 
+            // 输出表格所有字段
             for (int i = 0; i < stuReader.FieldCount; i++)
             {
-                Response.Write("<td>" + stuReader.GetName(i) + "</td>");
+                Response.Write("<td style='width:300px'>" + stuReader.GetName(i) + "</td>");
             }
 
             Response.Write("</tr>");
 
+            
+            
+            
+            
+
+
+
+            // 输出记录
             while (stuReader.Read())
             {
                 Response.Write("<tr>");
-                for (int j = 0; j < stuReader.FieldCount; j++)
+
+                // 输出前面的信息
+                int j;
+                for (j = 0; j < stuReader.FieldCount-1; j++)
                 {
-                    Response.Write("<td>" + stuReader.GetValue(j) + "</td>");
+                    Response.Write("<td style='height:30px;text-align:center'>" + stuReader.GetValue(j) + "</td>");
                 }
+                /* 冲突报错 DataReader
+                // 从数据表Major获取专业名字，索引是stuReader.GetValue(j)
+                int num = (int)stuReader.GetValue(j);
+                //stuReader.Close();
+                cmd2.CommandText = "select MajorName from Major where MajorId = " + num;
+                string majorName = (string)cmd2.ExecuteScalar();
+               
+                Response.Write("<td>" + majorName + "</td>");
+                */
+                //stuReader.Open();
+                
+                // 从数据库的数据表获取图片名字
+                string imageUrl = (string)stuReader.GetValue(j);
+
+                // 输出图片
+                Response.Write("<td><img src='image/" + imageUrl + "'/></td>");
+
                 Response.Write("</tr>");
             }
             Response.Write("</table>");

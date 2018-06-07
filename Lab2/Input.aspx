@@ -12,11 +12,13 @@
         Font-Size="Large"></asp:Label>
     <br /> <br /> <br /> 
     <div>
-       学号：<asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>&nbsp;<asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="TextBox1"  ErrorMessage="必须输入学号"></asp:RequiredFieldValidator><br />
-       <br />姓名：<asp:TextBox ID="TextBox2" runat="server"></asp:TextBox><br /><br />
-       生日：<asp:TextBox ID="TextBox3" runat="server"></asp:TextBox><br /><br />
-       专业：<asp:TextBox ID="TextBox4" runat="server"></asp:TextBox><br /><br />
-       照片：<asp:FileUpload ID="FileUpload1" runat="server" style="margin-bottom: 0px" 
+       学号：<asp:TextBox ID="StuNo" runat="server"></asp:TextBox>&nbsp;<asp:RequiredFieldValidator 
+            ID="RequiredFieldValidator1" runat="server" ControlToValidate="StuNo"  
+            ErrorMessage="必须输入学号"></asp:RequiredFieldValidator><br />
+       <br />姓名：<asp:TextBox ID="Name" runat="server"></asp:TextBox><br /><br />
+       生日：<asp:TextBox ID="Birth" runat="server" ontextchanged="TextBox3_TextChanged"></asp:TextBox><br /><br />
+       专业：<asp:TextBox ID="MajorId" runat="server"></asp:TextBox><br /><br />
+       照片：<asp:FileUpload ID="Image" runat="server" style="margin-bottom: 0px" 
             Width="185px" />
         <br />
        </div>  

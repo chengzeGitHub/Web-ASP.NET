@@ -13,7 +13,7 @@
         <asp:Label ID="Label1" runat="server" Font-Bold="True" Font-Size="Large" 
             Text="删除学生信息："></asp:Label>
         <br />
-        学号： <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>&nbsp;&nbsp;
+        学号： <asp:TextBox ID="StuNo" runat="server"></asp:TextBox>&nbsp;&nbsp;
         <asp:Button ID="Delete" runat="server" Text="删除" onclick="Delete_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
         <asp:Label ID="MsgDel" runat="server"></asp:Label>
         <br />

@@ -20,10 +20,19 @@ public partial class Del : System.Web.UI.Page
         MsgDel.Text = " ";
         MsgChg.Text = " ";
     }
+
+    /** 编写“删除”按钮的事件处理程序，
+     * 使用连接模式的数据库操作，
+     * 删除StuInfo表的指定记录
+     * 即，根据输入的StuNo值，删除相应记录。
+     * 要求利用SqlParameter对象，
+     * 使用参数化SQL语句，实现StuInfo表的指定记录删除。
+     **/
     protected void Delete_Click(object sender, EventArgs e)
     {
         string strCnn = ConfigurationManager.ConnectionStrings["StudentCnnString"].ConnectionString;
-
+         
+        /*  此为断开模式
         using (SqlConnection cnn = new SqlConnection(strCnn))
         {
             SqlDataAdapter daStu = new SqlDataAdapter("select * from StudInfo", cnn);
@@ -32,7 +41,7 @@ public partial class Del : System.Web.UI.Page
             DataTable dtStudInfo = new DataTable();
             daStu.Fill(dtStudInfo);
             dtStudInfo.PrimaryKey = new DataColumn[] {dtStudInfo.Columns["StuNo"]};
-            DataRow row = dtStudInfo.Rows.Find(TextBox1.Text.Trim());
+            DataRow row = dtStudInfo.Rows.Find(StuNo.Text.Trim());
             if(row != null)
             {
                 row.Delete();
@@ -44,6 +53,28 @@ public partial class Del : System.Web.UI.Page
                 MsgDel.Text = "没有该记录";
             }
         }
+        */
+        SqlConnection cnn = new SqlConnection(strCnn);
+        SqlCommand cmd = new SqlCommand();
+        cmd.Connection = cnn;  // 绑定Command对象
+
+        // 设置带参数的SQL命令
+        cmd.CommandText = "delete from StudInfo where StuNo = @StuNo";
+
+        // 为Command对象使用SqlParament对象准备参数
+        SqlParameter stuNoParam = new SqlParameter();
+        stuNoParam.ParameterName = "@StuNo";
+        stuNoParam.Value = StuNo.Text.Trim();
+
+        // 将准备好的参数加入Command对象
+        cmd.Parameters.Add(stuNoParam);
+
+        cnn.Open();
+        cmd.ExecuteNonQuery();
+        MsgDel.Text = "删除成功";
+
+        cnn.Close();
+
     }
     // 修改
     protected void Change_Click(object sender, EventArgs e)
