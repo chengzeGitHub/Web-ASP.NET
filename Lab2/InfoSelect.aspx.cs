@@ -71,7 +71,8 @@ public partial class InfoSelect : System.Web.UI.Page
                 string majorName = (string)cmd2.ExecuteScalar();
                
                 Response.Write("<td>" + majorName + "</td>");
-                */
+                 */
+                
                 //stuReader.Open();
                 
                 // 从数据库的数据表获取图片名字

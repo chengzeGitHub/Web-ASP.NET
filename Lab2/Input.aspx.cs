@@ -12,6 +12,8 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using System.Web.Configuration;
 using System.Data.SqlClient;
+using System.Linq;
+using System.IO;
 
 public partial class Input : System.Web.UI.Page
 {
@@ -100,8 +102,41 @@ public partial class Input : System.Web.UI.Page
             // 
         }
        
-        
+        // 上传图片到服务器 /image下
+        if (Image.HasFile)
+        {
+            string PictureName = Image.PostedFile.FileName;    // 获取图片名字
+            FileInfo PictureFile = new FileInfo(PictureName);
+            string WebFilePath = Server.MapPath("image/" + PictureFile.Name);   // 设置存放路径
+            string FileType = Image.PostedFile.ContentType;   // 获取图片类型
+            //Response.Write(FileType);   //测试图片文件格式类型
+            //Response.Write("<script language=javascript >alert('(1)我到这了!!');</script>"); //测试
 
+            if (FileType == "image/bmp" || FileType == "image/gif" || FileType == "image/jpeg")//image开头小写的啊,我勒个去
+            {
+                if (!File.Exists(WebFilePath))   // 如果不存在就保存
+                {
+                    try
+                    {
+                        Image.SaveAs(WebFilePath);
+                        //Image1.ImageUrl = "Images/" + PictureFile.Name;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        // 异常处理
+                    }
+                }
+                else
+                {
+                    // 图片以经存在
+                }
+            }
+            else
+            {
+                // 图片格式不对
+            }
+        }
     }
 
     // 查看 

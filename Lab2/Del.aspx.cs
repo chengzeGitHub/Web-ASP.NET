@@ -12,6 +12,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using System.Data.SqlClient;
 using System.Web.Configuration;
+using System.IO;
 
 public partial class Del : System.Web.UI.Page
 {
@@ -70,10 +71,32 @@ public partial class Del : System.Web.UI.Page
         cmd.Parameters.Add(stuNoParam);
 
         cnn.Open();
+       
+
+
+        ///////////////////////// 删除照片
+        // 从数据库获取图片名字
+        string cmdText = "select Image from StudInfo where StuNo = " + StuNo.Text.Trim();
+        SqlCommand cmd2 = new SqlCommand(cmdText, cnn);
+        SqlDataReader dr = cmd2.ExecuteReader();
+        if (dr.Read())
+        {
+            string imageName = (string)dr.GetValue(0);
+            Response.Write(imageName);
+
+            // 获取路径并且删除
+            string FilePath = Server.MapPath("image/" + imageName);  // 必须转化以下文件路径，不能直接delete("image/4jpg");
+            File.Delete(FilePath);
+        }
+        cnn.Close();
+        cnn.Open();
+
+        // 删除图片后删除记录
         cmd.ExecuteNonQuery();
         MsgDel.Text = "删除成功";
-
         cnn.Close();
+
+        
 
     }
     // 修改
